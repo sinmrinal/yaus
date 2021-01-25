@@ -1,0 +1,22 @@
+version: "1"
+services:
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      NODE_ENV: production
+      PORT: 8080
+    ports:
+      - "8080:8000"
+    command: npm start
+
+  postgres:
+    image: postgres
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: link

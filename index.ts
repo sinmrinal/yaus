@@ -1,8 +1,9 @@
 import express from "express";
-import {Client} from "pg";
+import morgan from "morgan";
+
+import redirector from "./routes/redirector";
 
 const server = express();
-const client = new Client("postgres://postgres:password@localhost:5000/link");
 
 server.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -14,7 +15,9 @@ server.use(function(req, res, next) {
     next();
   }
 });
+server.use(morgan('short'));
+server.get('/:link', redirector)
 
-server.listen(8001, () => {
-  console.log('Listining on port 8001...');
+server.listen(8000, () => {
+  console.log('Listining on port 8000...');
 });
