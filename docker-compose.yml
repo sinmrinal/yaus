@@ -9,13 +9,13 @@ services:
       NODE_ENV: production
       PORT: 8080
     ports:
-      - "8080:8000"
+      - "8080:8080"
     command: npm start
 
   postgres:
     image: postgres
     ports:
-      - "35432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass

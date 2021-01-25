@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 
 import redirector from "./routes/redirector";
+import create_new from "./routes/create_new";
 
 const server = express();
 
@@ -16,8 +17,9 @@ server.use(function(req, res, next) {
   }
 });
 server.use(morgan('short'));
-server.get('/:link', redirector)
+server.use(redirector)
+server.use(create_new)
 
-server.listen(8000, () => {
-  console.log('Listining on port 8000...');
+server.listen(process.env.PORT ?? 8000, () => {
+  console.log(`Listining on port ${process.env.PORT ?? 8000}...`);
 });

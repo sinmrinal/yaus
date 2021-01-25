@@ -1,12 +1,3 @@
-// const table = "CREATE TABLE IF NOT EXISTS link ( \
-//     s_url STRING \
-//     hit INTEGER DEFAULT 0 \
-//     url STRING \
-//     );";
-
-// client.query(table)
-
-
 import db from './db';
 
 const create = async (s_url: string, url: string) => {
@@ -15,7 +6,7 @@ const create = async (s_url: string, url: string) => {
         INSERT INTO link (s_url, url)
             VALUES (${s_url}, ${url});
         `);
-        return true;
+        return "Created";
     } catch (error) {
         return error.constraint
     }
@@ -28,4 +19,6 @@ const find = async (s_url: string) => {
     return rows[0];
 }
 
-export { create, find }
+const Link = { create, find }
+
+export default Link;

@@ -5,4 +5,11 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL
 });
 
+pool.query(`
+      CREATE TABLE IF NOT EXISTS link (
+        s_url STRING PRIMARY KEY,
+        url STRING
+        );
+`);
+
 export default pool;
