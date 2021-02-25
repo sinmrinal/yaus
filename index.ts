@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+require('dotenv').config()
 
 import redirector from "./routes/redirector";
 import create_new from "./routes/create_new";
@@ -20,6 +21,6 @@ server.use(morgan('short'));
 server.use(redirector)
 server.use(create_new)
 
-server.listen(process.env.PORT ?? 8000, () => {
-  console.log(`Listining on port ${process.env.PORT ?? 8000}...`);
+server.listen(process.env.PORT || 8001, () => {
+  console.log(`Listining on port ${process.env.PORT|| 8001}...`);
 });

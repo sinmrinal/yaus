@@ -2,9 +2,8 @@
   "name": "yet-another-url-shortner",
   "version": "1.0.0",
   "description": "A Url Shortner with custom url and auto generated url support.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/index.js"
   },
   "repository": {
@@ -21,11 +20,11 @@
   },
   "homepage": "https://github.com/sinmrinal/yaus#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "hashids": "^2.2.8",
     "morgan": "^1.10.0",
-    "pg": "^8.5.1",
-    "redis": "^3.0.2"
+    "nanoid": "^3.1.20",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
