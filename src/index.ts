@@ -1,39 +1,38 @@
-import { Pool } from 'pg';
+import { Pool } from "pg";
 import server from "./server";
 
-import YAUS from './db';
+import YAUS from "./dao";
 
 const pool = new Pool({
-    max: 10,
-    connectionTimeoutMillis: 0,
-    idleTimeoutMillis: 10000
-})
+  max: 10,
+  connectionTimeoutMillis: 0,
+  idleTimeoutMillis: 10000,
+});
 
-pool.on('error', (error, client) => {
-    console.error("Enable to establish a connection with database.")
-    console.error(error.stack)
-    process.exit(1)
-})
+pool.on("error", (error, _) => {
+  console.error("Enable to establish a connection with database.");
+  console.error(error.stack);
+  process.exit(1);
+});
 
-pool
-    .connect()
-    .then(async client => {
-        try {
-            await client
-                .query("CREATE TABLE IF NOT EXISTS yaus ( \
+pool.connect().then(async (client) => {
+  try {
+    await client.query(
+      "CREATE TABLE IF NOT EXISTS yaus ( \
             s_url varchar PRIMARY KEY, \
             url varchar \
-            );")
-            client.release();
-            await YAUS.injectDB(pool)
-        } catch (error) {
-            client.release();
-            console.error(error.stack)
-            process.exit(1)
-        }
-    })
+            );"
+    );
+    client.release();
+    await YAUS.injectDB(pool);
+  } catch (error) {
+    client.release();
+    console.error(error.stack);
+    process.exit(1);
+  }
+});
 
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 8000;
 server.listen(port, () => {
-    console.log(`listening on port ${port}`)
-})
+  console.log(`listening on port ${port}`);
+});

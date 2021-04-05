@@ -8,12 +8,12 @@ import create_new from "./routes/create_new";
 
 const server = express();
 
-server.use(cors())
-process.env.NODE_ENV !== "prod" && server.use(morgan("dev"))
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: true }))
+server.use(cors());
+process.env.NODE_ENV !== "prod" && server.use(morgan("dev"));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
 
-server.use(redirector)
-server.use(create_new)
+server.use(redirector);
+server.use(create_new);
 
 export default server;
