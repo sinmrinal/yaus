@@ -1,8 +1,20 @@
 # Yet Another Url Shortener
 
+## Table of Contents
+- [Yet Another Url Shortener](#yet-another-url-shortener)
+  - [Table of Contents](#table-of-contents)
+  - [About the project](#about-the-project)
+    - [Built With](#built-with)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Features](#features)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
+
 ## About the project
 
-A URL shortener app with custom URL support.
+A URL shortener api only app with custom URL support.
 
 ### Built With
 
@@ -46,9 +58,17 @@ Nodejs and PostgreSQL
    npm start
    ```
 
+## Features
+
+1. Custom URLs. :heavy_check_mark:
+2. Auto-generated URLs. :heavy_check_mark:
+3. Caching (LFU based evection). (WIP)
+4. Auto delete expired URLs. (WIP)
+5. Analytics with URL hits and geolocation. (WIP)
+
+
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/FeatureName`)
