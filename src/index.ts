@@ -3,36 +3,32 @@ import server from "./server";
 
 import YAUS from "./dao";
 
-const pool = new Pool({
-  max: 10,
-  connectionTimeoutMillis: 0,
-  idleTimeoutMillis: 10000,
-});
-
-pool.on("error", (error, _) => {
-  console.error("Enable to establish a connection with database.");
-  console.error(error.stack);
-  process.exit(1);
-});
-
-pool.connect().then(async (client) => {
-  try {
-    await client.query(
-      "CREATE TABLE IF NOT EXISTS yaus ( \
-            s_url varchar PRIMARY KEY, \
-            url varchar \
-            );"
-    );
-    client.release();
-    await YAUS.injectDB(pool);
-  } catch (error) {
-    client.release();
-    console.error(error.stack);
-    process.exit(1);
-  }
-});
+const connect = async () => {
+	try {
+		const pool = new Pool({
+			max: 10,
+			connectionTimeoutMillis: 0,
+			idleTimeoutMillis: 10000,
+		});
+		const client = await pool.connect();
+		await client.query("CREATE TABLE IF NOT EXISTS yaus (s_url varchar PRIMARY KEY,url varchar);");
+		client.release();
+		await YAUS.injectDB(pool);
+		return true;
+	} catch (error) {
+		console.error(error.stack);
+		return false;
+	}
+};
 
 const port = process.env.PORT || 8000;
-server.listen(port, () => {
-  console.log(`listening on port ${port}`);
+server.listen(port, async () => {
+	const connected = await connect();
+	if (connected) {
+		console.log(`Connection established with database.`);
+		console.log(`listening on port ${port}`);
+	} else {
+		console.error("Enable to establish a connection with database.");
+		process.exit(-1);
+	}
 });
