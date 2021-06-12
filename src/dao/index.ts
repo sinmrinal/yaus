@@ -1,13 +1,16 @@
 import { nanoid } from "nanoid";
 import { Pool } from "pg";
+import { RedisClient } from "redis";
 
 let yaus: Pool;
+let client: RedisClient
 
 export default class YAUS {
-  static async injectDB(pool: Pool) {
+  static async injectDB(pool: Pool, redisClient: RedisClient) {
     if (yaus) return;
     try {
       yaus = pool;
+      client = redisClient;
     } catch (error) {
       console.error("Enable to establish a connection via client.");
       console.error(error.stack);
@@ -53,7 +56,10 @@ export default class YAUS {
         [s_url]
       );
       if (result.rowCount == 0) return;
-      else return result.rows[0];
+      else {
+        client.setnx(result.rows[0]['s_url'], result.rows[0]['url'])
+        return result.rows[0];
+      }
     } catch (error) {
       console.error(error.stack);
       return;

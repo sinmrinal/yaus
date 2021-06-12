@@ -2,18 +2,24 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import bodyParser from "body-parser";
+import redis from "redis";
 
 import redirector from "./routes/redirector";
 import create_new from "./routes/create_new";
 
-const server = express();
+const expressServer = express();
+const redisClient = redis.createClient();
 
-server.use(cors());
-process.env.NODE_ENV !== "prod" && server.use(morgan("dev"));
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
+expressServer.use(cors());
+process.env.NODE_ENV !== "prod" && expressServer.use(morgan("dev"));
+expressServer.use(bodyParser.json());
+expressServer.use(bodyParser.urlencoded({ extended: true }));
 
-server.use(redirector);
-server.use(create_new);
+expressServer.use(redirector);
+expressServer.use(create_new);
 
-export default server;
+
+
+export { expressServer };
+export { redisClient };
+

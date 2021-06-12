@@ -1,9 +1,9 @@
 import { Pool } from "pg";
-import server from "./server";
+import { expressServer, redisClient } from "./server";
 
 import YAUS from "./dao";
 
-const connect = async () => {
+const connectdb = async () => {
 	try {
 		const pool = new Pool({
 			max: 10,
@@ -13,7 +13,7 @@ const connect = async () => {
 		const client = await pool.connect();
 		await client.query("CREATE TABLE IF NOT EXISTS yaus (s_url varchar PRIMARY KEY,url varchar);");
 		client.release();
-		await YAUS.injectDB(pool);
+		await YAUS.injectDB(pool, redisClient);
 		return true;
 	} catch (error) {
 		console.error(error.stack);
@@ -21,9 +21,10 @@ const connect = async () => {
 	}
 };
 
+
 const port = process.env.PORT || 8000;
-server.listen(port, async () => {
-	const connected = await connect();
+expressServer.listen(port, async () => {
+	const connected = await connectdb();
 	if (connected) {
 		console.log(`Connection established with database.`);
 		console.log(`listening on port ${port}`);
